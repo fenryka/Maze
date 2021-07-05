@@ -1,18 +1,21 @@
 import java.lang.StringBuilder
+class Maze (val matrixValue: Int, matrixDefault: Int, entryX: Int, entryY: Int, goalX: Int, goalY: Int, paths: List<PathGen>) {
+    var matrix = Array(matrixValue) {IntArray(matrixValue){matrixDefault} }
 
-class Maze (val matrixValue: Int, entryX: Int, entryY: Int, goalX: Int, goalY: Int) {
-    val matrix = Array(matrixValue) {IntArray(matrixValue){0} }
+    init {
+        for(i in paths) {
+            i.generate(matrix, entryX, entryY)
+        }
+        setMazeEntry(entryX, entryY)
+        setMazeGoal(goalX, goalY)
+    }
 
     fun setMazeGoal(goalX: Int, goalY: Int) {
         matrix[goalX][goalY] = 3
     }
 
     fun setMazeEntry(entryX: Int, entryY: Int) {
-        matrix[entryX][entryY] = 1
-    }
-
-    fun setMazePath() {
-
+        matrix[entryX][entryY] = 2
     }
 
     override fun toString() = StringBuilder().apply {
@@ -26,3 +29,4 @@ class Maze (val matrixValue: Int, entryX: Int, entryY: Int, goalX: Int, goalY: I
         }
     }.toString()
 }
+
