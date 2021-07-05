@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import kotlin.test.assertIs
 
 internal class GameTest {
     val mazeSize = 10
@@ -109,6 +110,117 @@ internal class GameTest {
         game.locationX = 1
         game.locationY = 1
         assertFalse(game.left())
+    }
+
+    @Test
+    fun checkEdge() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        val dfs = ArrayDeque<Pair<Int, Int>>()
+        game.locationX = 1
+        game.locationY = 1
+
+
+    }
+
+    @Test
+    fun removeUp() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        val dfs = ArrayDeque<Pair<Int, Int>>()
+        game.locationX = 1
+        game.locationY = 1
+        game.dfs.addFirst(Pair(1,0))
+        game.removeUp()
+        assertTrue(game.dfs.isEmpty())
+    }
+
+    @Test
+    fun addUp() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        val dfs = ArrayDeque<Pair<Int, Int>>()
+        game.locationX = 1
+        game.locationY = 1
+        game.addUp()
+        assertEquals(Pair(1, 0), game.dfs.first())
+    }
+
+    @Test
+    fun removeDown() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        val dfs = ArrayDeque<Pair<Int, Int>>()
+        game.locationX = 1
+        game.locationY = 1
+        game.dfs.addFirst(Pair(1,2))
+        game.removeDown()
+        assertTrue(game.dfs.isEmpty())
+    }
+
+    @Test
+    fun addDown() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        val dfs = ArrayDeque<Pair<Int, Int>>()
+        game.locationX = 1
+        game.locationY = 1
+        game.addDown()
+        assertEquals(Pair(1, 2), game.dfs.first())
+    }
+
+    @Test
+    fun removeRight() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        val dfs = ArrayDeque<Pair<Int, Int>>()
+        game.locationX = 1
+        game.locationY = 1
+        game.dfs.addFirst(Pair(2,1))
+        game.removeRight()
+        assertTrue(game.dfs.isEmpty())
+    }
+
+    @Test
+    fun addRight() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        val dfs = ArrayDeque<Pair<Int, Int>>()
+        game.locationX = 1
+        game.locationY = 1
+        game.addRight()
+        assertEquals(Pair(2, 1), game.dfs.first())
+    }
+
+    @Test
+    fun removeLeft() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        val dfs = ArrayDeque<Pair<Int, Int>>()
+        game.locationX = 1
+        game.locationY = 1
+        game.dfs.addFirst(Pair(0,1))
+        game.removeLeft()
+        assertTrue(game.dfs.isEmpty())
+    }
+
+    @Test
+    fun addLeft() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        game.locationX = 1
+        game.locationY = 1
+        game.addLeft()
+        assertEquals(Pair(0, 1), game.dfs.first())
     }
 
 }
