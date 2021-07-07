@@ -1,14 +1,27 @@
-class Game(matrixValue: Int, matrixDefault:Int, entryX: Int, entryY: Int, goalX: Int, goalY: Int, paths: List<PathGen>) {
+class Game(matrixValue: Int, matrixDefault:Int, entryX: Int, entryY: Int, val goalX: Int, val goalY: Int, paths: List<PathGen>) {
 	val maze = Maze(matrixValue, matrixDefault, entryX, entryY, goalX, goalY, paths)
 	val dfs = ArrayDeque<Pair<Int, Int>>()
 	var locationX : Int = entryX
 	var locationY : Int = entryX
 
-	fun checkEdge() {
+	fun checkGoalState() : Boolean{
+		return locationX == goalX && locationY == goalY
+	}
+
+	fun popHead() {
+		locationX = dfs.first().first
+		locationY = dfs.first().second
+		dfs.removeFirst()
+	}
+
+	fun pushChildren() {
 		addUp()
 		addDown()
 		addRight()
 		addLeft()
+	}
+
+	fun checkEdge() {
 		when (locationX) {
 			//can't call left
 			0 -> removeLeft()

@@ -7,8 +7,8 @@ internal class GameTest {
     val mazeSize = 10
     val entryX = 0
     val entryY = 0
-    val goalX = 4
-    val goalY = 4
+    var goalX = 4
+    var goalY = 4
     var matrixDefault = 0
 
     val deadEnd = PathGenDeadEndLine()
@@ -19,7 +19,7 @@ internal class GameTest {
     val square = PathGenSquare()
 
     @Test
-    fun playerLocation() {
+    fun playerLocationTest() {
         val paths = ArrayList<PathGen>()
         paths.add(deadEnd)
         paths.add(verticalLine)
@@ -33,7 +33,7 @@ internal class GameTest {
     }
 
     @Test
-    fun upYes() {
+    fun upYesTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -43,7 +43,7 @@ internal class GameTest {
     }
 
     @Test
-    fun upNo() {
+    fun upNoTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 0
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -53,7 +53,7 @@ internal class GameTest {
     }
 
     @Test
-    fun downYes() {
+    fun downYesTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -63,7 +63,7 @@ internal class GameTest {
     }
 
     @Test
-    fun downNo() {
+    fun downNoTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 0
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -73,7 +73,7 @@ internal class GameTest {
     }
 
     @Test
-    fun rightYes() {
+    fun rightYesTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -83,7 +83,7 @@ internal class GameTest {
     }
 
     @Test
-    fun rightNo() {
+    fun rightNoTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 0
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -93,7 +93,7 @@ internal class GameTest {
     }
 
     @Test
-    fun leftYes() {
+    fun leftYesTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -103,7 +103,7 @@ internal class GameTest {
     }
 
     @Test
-    fun leftNo() {
+    fun leftNoTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 0
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -115,12 +115,13 @@ internal class GameTest {
     //stack order:  1)left 2)right 3)down 4)up
 
     @Test
-    fun checkEdgeYEdge() {
+    fun checkEdgeYEdgeTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
         game.locationX = 1
         game.locationY = mazeSize - 1
+        game.pushChildren()
         game.checkEdge()
         assertTrue(game.dfs.size == 3)
         assertEquals(Pair(0, mazeSize - 1), game.dfs.first()) //left
@@ -132,12 +133,13 @@ internal class GameTest {
     }
 
     @Test
-    fun checkEdgeXEdge() {
+    fun checkEdgeXEdgeTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
         game.locationX = mazeSize - 1
         game.locationY = 1
+        game.pushChildren()
         game.checkEdge()
         assertTrue(game.dfs.size == 3)
         assertEquals(Pair(mazeSize - 2, 1), game.dfs.first()) //left #right elim
@@ -149,12 +151,13 @@ internal class GameTest {
     }
 
     @Test
-    fun checkEdgeY0() {
+    fun checkEdgeY0Test() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
         game.locationX = 1
         game.locationY = 0
+        game.pushChildren()
         game.checkEdge()
         assertTrue(game.dfs.size == 3)
         assertEquals(Pair(0, 0), game.dfs.first()) //left
@@ -166,12 +169,13 @@ internal class GameTest {
     }
 
     @Test
-    fun checkEdgeX0() {
+    fun checkEdgeX0Test() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
         game.locationX = 0
         game.locationY = 1
+        game.pushChildren()
         game.checkEdge()
         assertTrue(game.dfs.size == 3)
         assertEquals(Pair(1, 1), game.dfs.first()) //#left elim, right
@@ -183,12 +187,13 @@ internal class GameTest {
     }
 
     @Test
-    fun checkEdge() {
+    fun checkEdgeTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
         game.locationX = 1
         game.locationY = 1
+        game.pushChildren()
         game.checkEdge()
         assertTrue(game.dfs.size == 4)
         assertEquals(Pair(0, 1), game.dfs.first()) //left
@@ -202,7 +207,7 @@ internal class GameTest {
     }
 
     @Test
-    fun removeUp() {
+    fun removeUpTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -214,7 +219,7 @@ internal class GameTest {
     }
 
     @Test
-    fun addUp() {
+    fun addUpTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -225,7 +230,7 @@ internal class GameTest {
     }
 
     @Test
-    fun removeDown() {
+    fun removeDownTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -237,7 +242,7 @@ internal class GameTest {
     }
 
     @Test
-    fun addDown() {
+    fun addDownTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -248,7 +253,7 @@ internal class GameTest {
     }
 
     @Test
-    fun removeRight() {
+    fun removeRightTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -260,7 +265,7 @@ internal class GameTest {
     }
 
     @Test
-    fun addRight() {
+    fun addRightTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -271,7 +276,7 @@ internal class GameTest {
     }
 
     @Test
-    fun removeLeft() {
+    fun removeLeftTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -283,7 +288,7 @@ internal class GameTest {
     }
 
     @Test
-    fun addLeft() {
+    fun addLeftTest() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
         val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
@@ -293,4 +298,53 @@ internal class GameTest {
         assertEquals(Pair(0, 1), game.dfs.first())
     }
 
+    @Test
+    fun popHeadTest() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        game.locationX = 1
+        game.locationY = 1
+        game.pushChildren()
+        assertTrue(game.dfs.size == 4)
+        val x = game.dfs.first().first
+        val y = game.dfs.first().second
+        val nextHeadValue = game.dfs[1]
+        game.popHead()
+        assertTrue(game.locationX == x)
+        assertTrue(game.locationY == y)
+        assertTrue(game.dfs.size == 3)
+        assertTrue(game.dfs.first() == nextHeadValue)
+    }
+
+    @Test
+    fun pushChildrenTest() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        game.locationX = 1
+        game.locationY = 1
+        game.pushChildren()
+        assertTrue(game.dfs.size == 4)
+        assertEquals(Pair(0, 1), game.dfs.first()) //left
+        assertEquals(Pair(2, 1), game.dfs[1]) //right
+        assertEquals(Pair(1, 2), game.dfs[2]) //down
+        assertEquals(Pair(1, 0), game.dfs.last()) //up
+        println(game.dfs.first())
+        println(game.dfs[1])
+        println(game.dfs[2])
+        println(game.dfs.last())
+    }
+
+    @Test
+    fun checkGoalStateTest() {
+        goalX = 5
+        goalY = 5
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        game.locationX = 5
+        game.locationY = 5
+        assertTrue(game.checkGoalState())
+    }
 }

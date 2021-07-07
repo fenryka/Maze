@@ -17,7 +17,7 @@ internal class MazeTest {
     val square = PathGenSquare()
 
     @Test
-    fun mazeSize() {
+    fun mazeSizeTest() {
         val paths = ArrayList<PathGen>()
         paths.add(deadEnd)
         paths.add(verticalLine)
@@ -30,7 +30,7 @@ internal class MazeTest {
     }
 
     @Test
-    fun mazeToString() {
+    fun mazeToStringTest() {
         val paths = ArrayList<PathGen>()
         paths.add(deadEnd)
         paths.add(verticalLine)
@@ -43,7 +43,7 @@ internal class MazeTest {
     }
 
     @Test
-    fun setMazeEntry() {
+    fun setMazeEntryTest() {
         val paths = ArrayList<PathGen>()
         paths.add(deadEnd)
         paths.add(verticalLine)
@@ -57,7 +57,7 @@ internal class MazeTest {
     }
 
     @Test
-    fun setMazeGoal() {
+    fun setMazeGoalTest() {
         val paths = ArrayList<PathGen>()
         paths.add(deadEnd)
         paths.add(verticalLine)
