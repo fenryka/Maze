@@ -7,8 +7,8 @@ internal class GameTest {
     val mazeSize = 10
     val entryX = 0
     val entryY = 0
-    var goalX = 4
-    var goalY = 4
+    var goalX = 2
+    var goalY = 2
     var matrixDefault = 0
 
     val deadEnd = PathGenDeadEndLine()
@@ -347,4 +347,62 @@ internal class GameTest {
         game.locationY = 5
         assertTrue(game.checkGoalState())
     }
+
+    @Test
+    fun goForwardTest() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        game.locationX = 1
+        game.locationY = 1
+        game.pushChildren()
+        assertTrue(game.dfs.size == 4)
+        assertEquals(Pair(0, 1), game.dfs.first()) //left
+        assertEquals(Pair(2, 1), game.dfs[1]) //right
+        assertEquals(Pair(1, 2), game.dfs[2]) //down
+        assertEquals(Pair(1, 0), game.dfs.last()) //up
+
+        game.alreadyVisited.addFirst(Pair(0, 1))
+        game.goForward()
+
+        assertEquals(Pair(2, 1), game.dfs.first()) //new first
+        assertEquals(Pair(1, 2), game.dfs[1])
+        assertEquals(Pair(1, 0), game.dfs[2])
+        assertEquals(Pair(0, 1), game.dfs.last()) //old first
+    }
+
+    @Test
+    fun solveMazeDFSTest_Easy() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        game.solveMazeDFS()
+        println(game.maze)
+        println(game.solveMazeDFS())
+    }
+
+    @Test
+    fun addStartingArea() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        assertTrue(game.alreadyVisited.contains(Pair(entryX, entryY)))
+    }
+
+    @Test
+    fun solveMazeDFSTest_Harder() { //TODO - make solve avoid the 'hedges'!!
+        val paths = ArrayList<PathGen>()
+        paths.add(deadEnd)
+        paths.add(verticalLine)
+        paths.add(spiral)
+        paths.add(horizontalLine)
+        paths.add(lShapeLine)
+        paths.add(square)
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+
+        game.solveMazeDFS()
+        println(game.maze)
+        println(game.solveMazeDFS())
+    }
+
 }

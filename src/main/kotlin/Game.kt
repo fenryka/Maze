@@ -1,8 +1,39 @@
-class Game(matrixValue: Int, matrixDefault:Int, entryX: Int, entryY: Int, val goalX: Int, val goalY: Int, paths: List<PathGen>) {
+class Game(matrixValue: Int, matrixDefault:Int, val entryX: Int, val entryY: Int, val goalX: Int, val goalY: Int, paths: List<PathGen>) {
 	val maze = Maze(matrixValue, matrixDefault, entryX, entryY, goalX, goalY, paths)
 	val dfs = ArrayDeque<Pair<Int, Int>>()
+	val alreadyVisited = ArrayDeque<Pair<Int, Int>>()
 	var locationX : Int = entryX
 	var locationY : Int = entryX
+
+	//##DFS##
+	//1. Pop head
+	//2. Check if goal state
+	//3. Ask Maze where can I go
+	//4. Prune out previously visited nodes
+	//5. Add children to START
+	//6. goto 1
+
+	init {
+		alreadyVisited.addFirst(Pair(entryX, entryY))
+	}
+
+	fun solveMazeDFS() { //TODO - make solve avoid the 'hedges'!!
+		while (!checkGoalState()) {
+			pushChildren()
+			checkEdge()
+			goForward()
+			popHead()
+			checkGoalState()
+			println("$locationX, $locationY")
+		}
+	}
+
+	fun goForward() {
+		if (dfs.size > 1 && alreadyVisited.contains(dfs.first())) {
+			dfs.addLast(dfs.first())
+			dfs.removeFirst()
+		}
+	}
 
 	fun checkGoalState() : Boolean{
 		return locationX == goalX && locationY == goalY
@@ -11,6 +42,7 @@ class Game(matrixValue: Int, matrixDefault:Int, entryX: Int, entryY: Int, val go
 	fun popHead() {
 		locationX = dfs.first().first
 		locationY = dfs.first().second
+		alreadyVisited.addFirst(dfs.first())
 		dfs.removeFirst()
 	}
 
