@@ -22,7 +22,7 @@ class Main {
                 }
             }
 
-            val game = Game(20, 0, 0, 0, 0, 9, PathFactory.generate(pathMode))
+            val game = Game(20, 0, 0, 0, 0, 9, PathFactory.generate(pathMode), "DFS")
             println(game.maze)
         }
     }
