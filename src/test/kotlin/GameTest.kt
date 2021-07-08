@@ -372,6 +372,37 @@ internal class GameTest {
     }
 
     @Test
+    fun addStartingArea() {
+        val paths = ArrayList<PathGen>()
+        matrixDefault = 1
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        assertTrue(game.alreadyVisited.contains(Pair(entryX, entryY)))
+    }
+
+    @Test
+    fun checkHedge() {
+        val paths = ArrayList<PathGen>()
+        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
+        game.locationX = 2
+        game.locationY = 1
+        game.maze.matrix[2][0] = 1
+        game.maze.matrix[3][1] = 1
+        game.maze.matrix[2][2] = 1
+        game.maze.matrix[1][1] = 0
+        game.pushChildren()
+        assertTrue(game.dfs.size == 4)
+        assertEquals(Pair(1, 1), game.dfs.first()) //left
+        assertEquals(Pair(3, 1), game.dfs[1]) //right
+        assertEquals(Pair(2, 2), game.dfs[2]) //down
+        assertEquals(Pair(2, 0), game.dfs.last()) //up
+        game.checkHedge()
+        assertTrue(game.dfs.size == 3)
+        assertEquals(Pair(3, 1), game.dfs.first())
+        assertEquals(Pair(2, 2), game.dfs[1])
+        assertEquals(Pair(2, 0), game.dfs.last())
+    }
+
+    @Test
     fun solveMazeDFSTest_Easy() {
         val paths = ArrayList<PathGen>()
         matrixDefault = 1
@@ -382,15 +413,7 @@ internal class GameTest {
     }
 
     @Test
-    fun addStartingArea() {
-        val paths = ArrayList<PathGen>()
-        matrixDefault = 1
-        val game = Game(mazeSize, matrixDefault, entryX, entryY, goalX, goalY, paths)
-        assertTrue(game.alreadyVisited.contains(Pair(entryX, entryY)))
-    }
-
-    @Test
-    fun solveMazeDFSTest_Harder() { //TODO - make solve avoid the 'hedges'!!
+    fun solveMazeDFSTest_Harder() {
         val paths = ArrayList<PathGen>()
         paths.add(deadEnd)
         paths.add(verticalLine)

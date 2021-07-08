@@ -1,4 +1,4 @@
-class Game(matrixValue: Int, matrixDefault:Int, val entryX: Int, val entryY: Int, val goalX: Int, val goalY: Int, paths: List<PathGen>) {
+class Game(matrixValue: Int, val matrixDefault:Int, val entryX: Int, val entryY: Int, val goalX: Int, val goalY: Int, paths: List<PathGen>) {
 	val maze = Maze(matrixValue, matrixDefault, entryX, entryY, goalX, goalY, paths)
 	val dfs = ArrayDeque<Pair<Int, Int>>()
 	val alreadyVisited = ArrayDeque<Pair<Int, Int>>()
@@ -17,10 +17,11 @@ class Game(matrixValue: Int, matrixDefault:Int, val entryX: Int, val entryY: Int
 		alreadyVisited.addFirst(Pair(entryX, entryY))
 	}
 
-	fun solveMazeDFS() { //TODO - make solve avoid the 'hedges'!!
+	fun solveMazeDFS() {
 		while (!checkGoalState()) {
 			pushChildren()
 			checkEdge()
+			checkHedge()
 			goForward()
 			popHead()
 			checkGoalState()
@@ -51,6 +52,14 @@ class Game(matrixValue: Int, matrixDefault:Int, val entryX: Int, val entryY: Int
 		addDown()
 		addRight()
 		addLeft()
+	}
+
+	fun checkHedge() {
+		for(pair in dfs) {
+			if(maze.matrix[pair.first][pair.second] == 0) {
+				dfs.remove(pair)
+			}
+		}
 	}
 
 	fun checkEdge() {
