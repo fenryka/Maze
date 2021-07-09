@@ -1,5 +1,13 @@
-class Game(matrixValue: Int, matrixDefault:Int, val entryX: Int, val entryY: Int, val goalX: Int, val goalY: Int, paths: List<PathGen>) {
-	val maze = Maze(matrixValue, matrixDefault, entryX, entryY, goalX, goalY, paths)
+class Game(
+	matrixValue: Int,
+	matrixDefault:Int,
+	val entryX: Int,
+	val entryY: Int,
+	val goalX: Int,
+	val goalY: Int, paths: List<PathGen>,
+	renderer : Maze.Renderer = Maze.defaultRenderer()
+) {
+	val maze = Maze(matrixValue, matrixDefault, entryX, entryY, goalX, goalY, paths, renderer)
 	val dfs = ArrayDeque<Pair<Int, Int>>()
 	val alreadyVisited = ArrayDeque<Pair<Int, Int>>()
 	var locationX : Int = entryX

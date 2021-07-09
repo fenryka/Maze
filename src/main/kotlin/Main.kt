@@ -22,8 +22,8 @@ class Main {
                 }
             }
 
-            val game = Game(20, 0, 0, 0, 0, 9, PathFactory.generate(pathMode))
-            println(game.maze)
+            val game = Game(20, 0, 0, 0, 0, 9, PathFactory.generate(pathMode), ASCIIRenderer())
+            println (game.maze)
         }
     }
 }

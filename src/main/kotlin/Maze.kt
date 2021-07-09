@@ -31,8 +31,8 @@ class Maze (
     }
 
     init {
-        for(i in paths) {
-            i.generate(matrix, entryX, entryY)
+        paths.forEach {
+            it.generate(matrix, entryX, entryY)
         }
         setMazeEntry(entryX, entryY)
         setMazeGoal(goalX, goalY)

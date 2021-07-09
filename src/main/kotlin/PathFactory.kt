@@ -1,6 +1,6 @@
 object PathFactory {
-    private var generator : List<()-> List<PathGen>> = listOf (
-        {
+    private var generator : List<Pair<String, ()-> List<PathGen>>> = listOf (
+        Pair ("Curated 01") {
             listOf(
                 PathGenDeadEndLine(),
                 PathGenVerticalLine(),
@@ -10,14 +10,24 @@ object PathFactory {
                 PathGenSquare()
             )
         },
-        {
+        Pair ("Random") {
             listOf(
-               NullPathGen()
+                PathGenRandom1()
             )
-        }
+        },
+        Pair ("Fixed") {
+            listOf(
+                PathGenFixed1()
+            )
+        },
+       Pair ("Null") {
+           listOf(
+               NullPathGen()
+           )
+       }
     )
 
-    fun generate(idx: Int) : List<PathGen> = generator[idx]()
+    fun generate(idx: Int) : List<PathGen> = generator[idx].second()
 
     fun valid(idx: Int) = idx < generator.size && idx >= 0
 }
